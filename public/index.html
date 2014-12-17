@@ -1,0 +1,66 @@
+<!doctype html> <html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Pi Blink</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, 
+initial-scale=1">
+        <script src="/socket.io/socket.io.js"></script>
+        <!-- Place favicon.ico in the root directory -->
+        <!--<link rel="stylesheet" href="css/normalize.css">-->
+        <style type="text/css">
+            body {
+                text-align: center;
+            }
+
+            #toggle {
+                background: red;
+                border: none;
+                width: 150px;
+                height: 150px;
+            }
+
+            #toggle.on {
+                background: green;
+            }
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an 
+<strong>outdated</strong> browser. Please <a 
+href="http://browsehappy.com/">upgrade your browser</a> to improve your 
+experience.</p>
+        <![endif]-->
+        <h1>Pi Blink!</h1>
+        <button id="toggle" onclick="toggleLED();">Toggle!</button>
+        <script>
+            var io = io.connect();
+            
+            io.on('on',function(){
+                turned(true);
+            });
+            
+            io.on('off',function(){
+                turned(false);
+            });
+            
+            var toggleButton = document.getElementById('toggle'),
+                isOn = true;
+            
+            
+            function turned(on) {
+                isOn = on;
+                toggleButton.classList.toggle('on', on);
+                toggleButton.innerHTML = "LED is " + (on ? "on" : "off");
+            }
+            
+            function toggleLED() {
+                isOn = !isOn;
+                io.emit(isOn ? "on" : "off");
+                turned(isOn);
+            }
+        </script>
+    </body>
+</html>
