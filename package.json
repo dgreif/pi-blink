@@ -8,6 +8,7 @@
   },
   "main": "index.js",
   "dependencies": {
+    "avconv": "^2.0.0",
     "express": "^4.10.6",
     "pi-gpio": "0.0.6",
     "socket.io": "^1.2.1"
